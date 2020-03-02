@@ -1,0 +1,10 @@
+// Old Brown Box Obtainable Items Database
+//
+// Structure of Database:
+// GroupID,ItemID,Rate
+
+IG_BrownBox,501,12	// Red Potion
+IG_BrownBox,502,12	// Orange Potion
+IG_BrownBox,503,12	// Yellow Potion
+IG_BrownBox,504,12	// White Potion
+IG_BrownBox,505,12	// Blue Potion
