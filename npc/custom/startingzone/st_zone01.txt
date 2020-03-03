@@ -10,11 +10,12 @@
 // Lady Behind The Counter
 //============================================================
 st_zone01,102,44,3	script	Lady	864,{
-	mes "[Lady]";
-	mes "Hello there traveler!";
-	mes "We are in great need of help!";
-	mes "Are you here to volounteer?";
-	next;
+	if ( BaseLevel == 1 ){
+		mes "[Lady]";
+		mes "Hello there traveler!";
+		mes "We are in great need of help!";
+		mes "Are you here to volounteer?";
+		next;
 	if(select("Yes:No") == 2){
 		mes "[Lady]";
 		mes "Please!";
@@ -32,29 +33,81 @@ st_zone01,102,44,3	script	Lady	864,{
 }
 	mes "[Lady]";
 	mes "Great! Please go and check with the Doctors in the room to the left if they need a helping hand.";
+	set	Baselevel,Baselevel+1;
+	set	Joblevel,Joblevel+1;
 	end;
+}else{
+	if ( BaseLevel > 3 ){
+		mes "[Lady]";
+		mes "Don't you have other things to do?";
+		end;
+	}else{
+		mes "[Lady]";
+		mes "Did you forget?";
+		mes "Talk to the Doctors in the room to the left if they need a helping hand.";
+		end;
+	}
+	}
 }
 
 // Female Doctor
 //============================================================
 st_zone01,35,52,3	script	Female Doctor	112,{
-	mes "[Female Doctor]";
-	mes "Hello!";
-	mes "I'm not really a doctor.";
-	mes "But in hard times like these they seem";
-	mes "to need help from anyone they can find.";
-	next;
-	mes "[Curly Sue]";
-	mes "My name is Curly Sue.";
-	mes "My real job is being a Kafra in Aldebaran.";
-	mes "But i'm here to help with whatever i can do to help.";
-	next;
-	mes "[Curly Sue]";
-	mes "That reminds me!";
-	mes "This patient needs clean clothes urgently!";
-	mes "Could you go upstairs and look for some for me?";
-	mes "I can't really go myself as the patient could get worse any second..";
-	end;
+	if ( BaseLevel == 2 ){
+		mes "[Female Doctor]";
+		mes "Hello!";
+		mes "I'm not really a doctor.";
+		mes "But in hard times like these they seem";
+		mes "to need help from anyone they can find.";
+		next;
+		mes "[Curly Sue]";
+		mes "My name is Curly Sue.";
+		mes "My real job is being a Kafra in Aldebaran.";
+		mes "But i'm here to help with whatever i can do to help.";
+		next;
+		mes "[Curly Sue]";
+		mes "That reminds me!";
+		mes "This patient needs clean clothes urgently!";
+		mes "Could you go upstairs and look for some for me?";
+		mes "I can't really go myself as the patient could get worse any second..";
+		set	Baselevel,Baselevel+1;
+		set	Joblevel,Joblevel+1;
+		end;
+	}else{
+	if ( BaseLevel > 3 ){
+		mes "[Curly Sue]";
+		mes "I heard the kitchen needs a hand, you can find them in the furthest room to the right.";
+		mes "We might see eachother at another time in Aldebaran.";
+		end;
+	}else{
+		if( countitem(7071 ) > 2 ){
+			mes "[Curly Sue]";
+			mes "That took a while, a nurse already came with clean clothes for the patient.";
+			mes "Keep the clothes you seem like you need them..";
+			mes "I heard the kitchen needs a hand, you can find them in the furthest room to the right.";
+			getitem 2401,1;
+			getitem 2501,1;
+			getitem 2305,1;
+			set	Baselevel,Baselevel+1;
+			set	Joblevel,Joblevel+1;
+			delitem 7071,countitem(7071);
+			end;
+		}else{
+			if ( BaseLevel > 4 ){
+			mes "[Curly Sue]";
+			mes "Thank you for the help.";
+			mes "We might see eachother at another time in Aldebaran.";
+			end;
+			}else{
+			mes "[Curly Sue]";
+			mes "Quickly!";
+			mes "His wounds are not getting better from all these dirty clothes.";
+			mes "Please go upstairs and look for a clean pair of clothes.";
+			end;
+			}
+		}
+	}
+	}
 }
 
 // Patient
@@ -64,3 +117,85 @@ st_zone01,33,52,3	script	Patient	585,{
 	mes "eeh...";
 	end;
 }
+
+// Clothes
+//============================================================
+st_zone02,57,88,3	script	Clothes	111,{
+	if( countitem(7071 ) > 2 ){
+		mes "You already picked the clothes up..";
+		end;
+	}else{
+		mes "*picked up clothes*";
+		getitem 7071,3;
+		end;
+	}
+}
+
+// Kitchen Chef
+//============================================================
+st_zone01,153,51,3	script	Chef	80,{
+	if ( BaseLevel == 4 ){
+		mes "[Chef]";
+		mes "Hi there!";
+		mes "What can i do for you?";
+		next;
+		if(select("Here to help:Nothing") == 2){
+			mes "[Chef]";
+			mes "Ok'bye!";
+		end;
+		}
+			mes "[Chef]";
+			mes "Great!";
+			mes "Some of the patients kids stole a watermelon could you please get it back for me?";
+			next;
+			if(select("Sure:I'll get right to it!") == 2){
+				mes "[Chef]";
+				mes "That's the spirit!";
+				set	Baselevel,Baselevel+1;
+				set	Joblevel,Joblevel+1;
+				end;
+			}else{
+				mes "[Chef]";
+				mes "Thank you!";
+				set	Baselevel,Baselevel+1;
+				set	Joblevel,Joblevel+1;
+				end;
+			}
+	}else{
+		if ( BaseLevel == 5 ){
+			if( countitem(909 ) == 1 ){
+				mes "[Chef]";
+				mes "WATCH OUT!";
+				mes "*You fell and dropped the watermelon and it split in half.*";
+				mes "You clumsy mess you dropped it!";
+				next;
+				mes "*Chef throws the watermelon at you.*";
+				mes "[Chef]";
+				mes "Take that! hihi, i'm not mad we have plenty of watermelons in the storage.";
+				getitem 30000,1;
+				next;
+				mes "[Chef]";
+				mes "That's enough help from you now.";
+				mes "Go check with the guys in the armory they always needs a helping hand. I doubt you'll be at any as clumsy as you are though. *giggles*";
+				set	Baselevel,Baselevel+1;
+				set	Joblevel,Joblevel+1;
+				delitem 909,countitem(909);
+				end;
+			}else{
+			mes "[Chef]";
+			mes "I believe the kids hangs out upstairs.";
+			end;
+			}
+		}else{
+			mes "[Chef]";
+			mes "I have things to do.";
+			if ( BaseLevel == 6 ){
+				mes "[Chef]";
+				mes "Go check with the guys in the armory they always needs a helping hand. I doubt you'll be at any as clumsy as you are though. *giggles*";
+			}
+		}
+	end;
+	}
+}
+
+
