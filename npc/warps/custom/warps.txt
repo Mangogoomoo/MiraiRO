@@ -1,0 +1,7 @@
+// Warps
+//============================================================
+st_zone01,78,27,0	warp	st_zone001	2,5,st_zone02,79,78
+st_zone02,82,77,0	warp	st_zone002	2,5,st_zone01,79,33
+
+st_zone01,121,27,0	warp	st_zone003	2,5,st_zone02,129,48
+st_zone02,125,48,0	warp	st_zone004	2,5,st_zone01,121,33
